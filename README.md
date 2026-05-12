@@ -157,6 +157,26 @@ Claude's job: everything else.
 
 ---
 
+## Project Status
+
+**Active Project**: Conoscenza Centro Funzionale Monitoraggio Rischi (CFMR)
+
+### Current State (2026-05-12)
+- ✅ **30 wiki pages created** from 21 source documents
+- ✅ **CFMR procedures documented** (10 operational manuals + 1 decree)
+- ✅ **Italian civil protection legislation indexed** (11 legislative documents)
+- ✅ **5 key entities** established (CFMR, Regione Lombardia, ARPA, ARIA Spa, Dipartimento PC)
+- ✅ **2 core concepts** defined (Allertamento, Sistema Protezione Civile)
+
+### Latest Operation
+```
+## 2026-05-12 — ingest all raw/ documents (batch 21 sources)
+- Pages written: 21 sources + 5 entities + 2 concepts
+- Notes: Complete ingestion of CFMR procedures and civil protection legislation
+```
+
+---
+
 ## Credits
 
 Based on the [LLM Wiki pattern](https://github.com/tobi/llm-wiki) — an idea for building personal knowledge bases using LLMs as maintainers rather than retrievers.
