@@ -16,50 +16,44 @@ The wiki is a compounding artifact. The cross-references are already there. The 
 
 ## Quickstart
 
-### 1. Create a new project from this template
+### 1. Set up Google Drive and credentials
 
-Click **"Use this template"** on GitHub → create a new repo → open a Codespace.
+1. Create a Google Cloud project and service account
+2. Give the service account access to the LLM-Wiki folder on Drive
+3. Download the service account JSON key
+4. Set the environment variable: `export GOOGLE_SERVICE_ACCOUNT='<json-key-content>'`
 
 ### 2. Set your Anthropic API key
 
-In your GitHub repo: **Settings → Secrets and variables → Codespaces → New secret**
-
-```
-Name:  ANTHROPIC_API_KEY
-Value: sk-ant-...
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-### 3. Describe your project
+### 3. Create a project folder on Google Drive
 
-Edit `PROJECT.md` in the root of your new repo (5 minutes):
-
-```markdown
-# My Project Name
-
-## Domain
-What this project is about.
-
-## Goal
-What you want the wiki to help you understand or track.
-
-## Source types
-PDF reports, web articles, meeting transcripts, etc.
-
-## Key entities to track
-Companies, people, products, concepts — whatever is central to your domain.
+On Drive, create a folder under `LLM-Wiki/` with this structure:
+```
+My-Project/
+├── PROJECT.md          ← Edit this with your project details
+├── raw/                ← Add source files here (PDFs, markdown, etc.)
+└── wiki/               ← Claude will create and maintain this
 ```
 
-### 4. Add your sources
+Add the folder ID to `projects.md` in this repo.
 
-Drop any files into `raw/` — PDFs, markdown, text files, exported web articles.
-
-### 5. Start Claude Code and go
+### 4. Start Claude Code and go
 
 ```bash
 claude
 ```
 
-Claude will read `PROJECT.md`, orient itself on the current wiki state, and confirm it's ready. Then use the commands below.
+Claude will:
+1. Ask which project to work on
+2. Pull the project from Drive to `/tmp/wiki-project/`
+3. Show you the current wiki state
+4. Wait for your commands
+
+Use the commands below. At the end of each session, the wiki is pushed back to Drive.
 
 ---
 
@@ -77,34 +71,49 @@ Claude will read `PROJECT.md`, orient itself on the current wiki state, and conf
 
 ## Repository structure
 
+This repo is **stateless**. All project data lives on Google Drive.
+
 ```
-your-project/
-├── CLAUDE.md               ← Agent instructions (universal, don't edit per-project)
-├── PROJECT.md              ← Your project context (edit this for each project)
-├── .devcontainer/
-│   └── devcontainer.json   ← Codespace config with Claude Code pre-installed
-└── raw/                    ← Your sources (PDFs, markdown, text — immutable)
-    └── assets/             ← Downloaded images from articles
-wiki/                       ← Everything below is written and owned by Claude
-    ├── index.md            ← Full catalog of all wiki pages
-    ├── log.md              ← Append-only operation log
-    ├── sources/            ← One page per ingested source
-    ├── entities/           ← People, companies, products, places
-    ├── concepts/           ← Ideas, frameworks, terminology
-    └── synthesis/          ← Cross-source analyses, comparisons, saved query answers
+llm-wiki-template/          ← This repo (universal tools)
+├── CLAUDE.md               ← Agent instructions
+├── projects.md             ← List of projects on Google Drive
+├── tools/
+│   ├── drive.py            ← Google Drive API wrapper
+│   └── sync_project.py     ← Pull/push projects to Drive
+├── .devcontainer/          ← Codespace config
+└── .gitignore              ← Excludes /tmp/, cache, etc.
+
+# On Google Drive:
+LLM-Wiki/                    ← Root folder (shared with service account)
+└── Your-Project/
+    ├── PROJECT.md          ← Your project context
+    ├── raw/                ← Your source files (PDFs, markdown, etc.)
+    └── wiki/               ← Claude builds and maintains this
+        ├── index.md        ← Full catalog
+        ├── log.md          ← Append-only operation log
+        ├── sources/        ← One page per source
+        ├── entities/       ← People, companies, products, places
+        ├── concepts/       ← Ideas, frameworks, terminology
+        └── synthesis/      ← Cross-source analyses and saved queries
 ```
 
-**Rule**: Claude never touches `raw/`. You never write in `wiki/`. Everything in between is collaboration.
+**Flow**: 
+1. At session start: `sync_project.py pull` downloads project from Drive → `/tmp/wiki-project/`
+2. Claude works in `/tmp/wiki-project/` 
+3. At end of session: `sync_project.py push` uploads wiki/ back to Drive
+4. `/tmp/` is never committed to this repo
 
 ---
 
 ## How a session looks
 
-```
-# Claude orients itself automatically at session start
-> "Progetto: Fintech Analysis | Wiki pages: 23 | Last op: 2026-05-10 ingest | 3 sources pending"
+```bash
+$ claude
 
-# Add a new source
+# Claude downloads from Drive, orients itself
+> "Project: Fintech Analysis | Wiki pages: 23 | Last op: 2026-05-10 ingest | 3 sources pending"
+
+# Add a new source (uploaded to raw/ on Drive)
 ingest raw/q1-2026-report.pdf
 
 # Claude discusses takeaways, then:
@@ -113,14 +122,18 @@ ingest raw/q1-2026-report.pdf
 # → updates wiki/concepts/embedded-finance.md (new example)
 # → flags contradiction with wiki/entities/company-y.md
 # → updates index.md and log.md
+# → pushes changes to Drive
 
 # Ask anything
 What are the main competitive dynamics identified so far?
 
 # Claude searches wiki, answers with citations, offers to save the synthesis
+# Saves to wiki/synthesis/ and pushes to Drive
 
 # Periodic health check
 lint
+
+# At session end, all wiki changes are automatically on Drive
 ```
 
 ---
