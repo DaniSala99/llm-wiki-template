@@ -1,0 +1,6 @@
+# Raw source files — tracked by git, but large binaries may be excluded
+raw/assets/*.png
+raw/assets/*.jpg
+raw/assets/*.jpeg
+raw/assets/*.gif
+raw/assets/*.webp

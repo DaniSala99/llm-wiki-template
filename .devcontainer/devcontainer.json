@@ -1,0 +1,25 @@
+{
+  "name": "LLM Wiki Agent",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
+  "remoteEnv": {
+    "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "foam.foam-vscode"
+      ],
+      "settings": {
+        "editor.wordWrap": "on",
+        "editor.lineNumbers": "off",
+        "files.defaultLanguage": "markdown"
+      }
+    }
+  }
+}
