@@ -1,7 +1,7 @@
 # Wiki Index
 
 **Last updated**: 2026-05-12
-**Total pages**: 26
+**Total pages**: 30
 
 ## Sources
 
@@ -34,8 +34,9 @@
 
 - [[centro-funzionale-monitoraggio-rischi]] — CFMR - Risk monitoring functional center
 - [[regione-lombardia]] — Lombardy regional government
+- [[dipartimento-protezione-civile]] — National civil protection department
 - [[arpa-lombardia]] — Regional environmental protection agency
-- [[aria-spa]] — Technical support provider
+- [[aria-spa]] — Technology company (GESTCOM, AllertaLOM systems)
 
 ## Concepts
 
