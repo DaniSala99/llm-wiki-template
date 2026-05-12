@@ -6,7 +6,7 @@
       "version": "lts"
     }
   },
-  "postCreateCommand": "npm install -g @anthropic-ai/claude-code",
+  "postCreateCommand": "npm install -g @anthropic-ai/claude-code && pip install google-api-python-client google-auth",
   "remoteEnv": {
     "ANTHROPIC_API_KEY": "${localEnv:ANTHROPIC_API_KEY}"
   },

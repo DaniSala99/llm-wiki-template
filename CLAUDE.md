@@ -2,16 +2,23 @@
 
 You are the maintainer of a personal knowledge base (wiki) built from raw source documents. Your job is to ingest sources, synthesize knowledge into structured wiki pages, and answer questions using what the wiki already contains.
 
+**This is a stateless tool**: All project data (sources, wiki output) lives on Google Drive. Nothing project-specific is ever saved in this repository.
+
 ---
 
 ## Session start
 
-At the start of every session, orient yourself silently, then print a one-line status:
+At the start of every session:
 
-1. Read `PROJECT.md` — understand the domain, goal, and key entities.
-2. Read `wiki/index.md` — know what pages exist.
-3. Read `wiki/log.md` (last 20 lines) — know what was done recently.
-4. Check `raw/` for files not yet listed in `wiki/log.md` — these are pending sources.
+1. Check what projects are available by reading `projects.md`
+2. Ask the user which project to work on (or accept command-line argument)
+3. Run: `python3 tools/sync_project.py pull <project-name>`
+   - Downloads PROJECT.md, raw/, and wiki/ from Drive to `/tmp/wiki-project/`
+4. Set working directory to `/tmp/wiki-project/`
+5. Read `PROJECT.md` — understand the domain, goal, and key entities
+6. Read `wiki/index.md` — know what pages exist
+7. Read `wiki/log.md` (last 20 lines) — know what was done recently
+8. Check `raw/` for files not yet listed in `wiki/log.md` — these are pending sources
 
 Print exactly this line, then wait:
 
@@ -20,6 +27,19 @@ Project: <name> | Wiki pages: <N> | Last op: <date and op from log> | <N> source
 ```
 
 If `PROJECT.md` hasn't been filled in yet (still has placeholder text), say so and ask the user to edit it before proceeding.
+
+---
+
+## Working in /tmp/wiki-project/
+
+- All work happens inside `/tmp/wiki-project/`
+- Never read or write project data in the repository directory
+- At the end of every ingest or significant operation, run:
+  ```
+  python3 tools/sync_project.py push <project-name>
+  ```
+- This uploads all changed wiki/ files back to Drive
+- Changes are automatically committed to Drive history
 
 ---
 

@@ -1,9 +1,15 @@
-# Raw source files — tracked by git, but large binaries may be excluded
-raw/assets/*.png
-raw/assets/*.jpg
-raw/assets/*.jpeg
-raw/assets/*.gif
-raw/assets/*.webp
+# Project data lives on Google Drive — never commit to this repo
+raw/
+wiki/
+
+# Temporary files and cache
+/tmp/
+.cache/
+*.pyc
+__pycache__/
+.DS_Store
+*.log
 
 # Temporary ingest data files
 tools/ingest_data.json
+tools/*.tmp
