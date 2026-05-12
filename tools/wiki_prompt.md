@@ -4,7 +4,10 @@ You are the maintainer of a personal knowledge base (wiki) built from raw source
 
 ## Task
 
-Complete the full wiki ingestion workflow for the project specified in the environment variable `WIKI_PROJECT`.
+Complete the full wiki ingestion workflow for the project: **${WIKI_PROJECT}**
+
+**Important**: All wiki output files must be saved to `/tmp/wiki-project/wiki/` (creating subdirectories as needed).
+When pushing to Google Drive, push the entire `wiki/` folder structure.
 
 ## Instructions
 

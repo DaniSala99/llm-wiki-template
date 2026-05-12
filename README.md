@@ -16,12 +16,24 @@ The wiki is a compounding artifact. The cross-references are already there. The 
 
 ## Quickstart
 
-### 1. Set up Google Drive and credentials
+### 1. Set up Google Drive authentication
 
-1. Create a Google Cloud project and service account
-2. Give the service account access to the LLM-Wiki folder on Drive
-3. Download the service account JSON key
-4. Set the environment variable: `export GOOGLE_SERVICE_ACCOUNT='<json-key-content>'`
+**Option A: Use Claude Code MCP (Recommended)**
+
+No setup needed! Claude Code comes with built-in Google Drive integration.
+
+In Claude Code, just run:
+```
+/mcp
+```
+
+Select **"claude.ai Google Drive"** and authorize your Google account. Done!
+
+**Option B: Manual OAuth2 setup** (if Option A doesn't work)
+
+1. Go to [myaccount.google.com/permissions](https://myaccount.google.com/permissions)
+2. Look for "Third-party apps with account access" and authorize Claude Code
+3. Or run: `gcloud auth application-default login`
 
 ### 2. Set your Anthropic API key
 
@@ -29,43 +41,75 @@ The wiki is a compounding artifact. The cross-references are already there. The 
 export ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-### 3. Create a project folder on Google Drive
+### 3. Create a project on Google Drive
 
-On Drive, create a folder under `LLM-Wiki/` with this structure:
+1. On Google Drive, create or find the **LLM-Wiki** root folder
+2. Inside it, create a new folder for your project (e.g., `My-Project`)
+3. Inside your project folder, create:
+   - **PROJECT.md** — your project context (what domain, goal, source types)
+   - **raw/** — folder for your source files (PDFs, markdown, docs, etc.)
+   - Claude will auto-create **wiki/** when you start ingesting
+
+Example structure:
 ```
-My-Project/
-├── PROJECT.md          ← Edit this with your project details
-├── raw/                ← Add source files here (PDFs, markdown, etc.)
-└── wiki/               ← Claude will create and maintain this
+LLM-Wiki/
+└── My-Project/
+    ├── PROJECT.md
+    ├── raw/
+    │   ├── document1.pdf
+    │   └── document2.md
+    └── wiki/ ← Created automatically
 ```
 
-Add the folder ID to `projects.md` in this repo.
+### 4. Register your project in projects.md
 
-### 4. Start Claude Code and go
+Edit `projects.md` in this repo and add a row with:
+- **Name**: Your project name (e.g., `My-Project`)
+- **Drive Folder ID**: The folder ID from Drive (right-click → Share → copy ID)
+- **Status**: `active` or `archived`
+
+### 5. Start the wiki workflow
 
 ```bash
-claude
+./tools/wiki.sh My-Project
 ```
 
 Claude will:
-1. Ask which project to work on
-2. Pull the project from Drive to `/tmp/wiki-project/`
-3. Show you the current wiki state
-4. Wait for your commands
+1. Pull your project from Drive to `/tmp/wiki-project/`
+2. Read PROJECT.md and understand your domain
+3. Ingest all pending files from `raw/`
+4. Build/update wiki pages with cross-references
+5. Push everything back to Drive
+6. Show you a summary
 
-Use the commands below. At the end of each session, the wiki is pushed back to Drive.
+That's it! Your wiki is now on Drive.
 
 ---
 
-## Commands
+## Main workflow
+
+```bash
+# Automatic batch ingestion (recommended)
+./tools/wiki.sh My-Project
+
+# This does everything:
+# 1. Pulls project from Drive
+# 2. Ingests all files in raw/ that aren't in log.md yet
+# 3. Creates/updates wiki pages
+# 4. Pushes wiki back to Drive
+```
+
+## Interactive commands (inside Claude Code)
+
+Once the wiki is pulled, you can use these:
 
 | Command | What happens |
 |---|---|
-| `ingest raw/file.pdf` | Claude reads the source, discusses takeaways with you, writes wiki pages, updates cross-references |
-| `ingest raw/` | Batch-ingest all files in the folder |
-| `[any question]` | Claude searches the wiki and answers with citations; offers to save substantial analyses |
+| `ingest raw/file.pdf` | Claude reads the source, discusses takeaways, writes wiki pages, updates cross-references |
+| `ingest raw/` | Batch-ingest all un-ingested files from raw/ |
+| `[any question]` | Claude searches the wiki and answers with citations; offers to save analyses |
 | `lint` | Health check: contradictions, orphan pages, stale claims, missing cross-references |
-| `status` | Overview of wiki state, un-ingested sources, last operations |
+| `status` | Overview of wiki state, un-ingested sources, recent operations |
 
 ---
 

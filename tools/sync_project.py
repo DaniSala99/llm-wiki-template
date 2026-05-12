@@ -142,7 +142,11 @@ def push_project(project_name: str) -> bool:
     print(f"📤 Pushing {project_name} to Drive...")
     print(f"   Folder ID: {folder_id}")
 
-    # Get or create wiki/ folder
+    # Ensure wiki/ folder exists locally
+    wiki_dir = LOCAL_PROJECT_DIR / "wiki"
+    wiki_dir.mkdir(parents=True, exist_ok=True)
+
+    # Get or create wiki/ folder on Drive
     wiki_folder_id = client.get_or_create_folder("wiki", folder_id)
 
     # Upload wiki files recursively
