@@ -214,6 +214,20 @@ Claude's job: everything else.
 
 ---
 
+## Status
+
+✅ **Production-ready**. The template has been tested end-to-end:
+- Google Drive authentication (MCP-based OAuth2)
+- File ingestion and wiki page generation
+- Cross-reference and contradiction detection
+- Multi-folder wiki structure (sources, entities, concepts, synthesis)
+- Automatic push/pull synchronization with Drive
+- Example project: CFMR Lombardia (42 wiki pages, 21 ingested documents)
+
+See [CLAUDE.md](CLAUDE.md) for detailed agent instructions, [SETUP.md](SETUP.md) for step-by-step configuration.
+
+---
+
 ## Credits
 
 Based on the [LLM Wiki pattern](https://github.com/tobi/llm-wiki) — an idea for building personal knowledge bases using LLMs as maintainers rather than retrievers.
