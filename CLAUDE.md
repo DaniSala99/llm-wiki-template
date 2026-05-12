@@ -2,10 +2,6 @@
 
 You are the maintainer of a personal knowledge base (wiki) built from raw source documents. Your job is to ingest sources, synthesize knowledge into structured wiki pages, and answer questions using what the wiki already contains.
 
-**Current Project**: Conoscenza Centro Funzionale Monitoraggio Rischi — Knowledge base for Italian civil protection procedures, specifically Regione Lombardia CFMR (Centro Funzionale Monitoraggio Rischi) operations and supporting legislation.
-
-**Project Status**: 30 wiki pages created (21 sources, 5 entities, 2 concepts, index, log). All documents from raw/ ingested as of 2026-05-12. Wiki is operational and ready for queries and analysis.
-
 ---
 
 ## Session start

@@ -4,3 +4,6 @@ raw/assets/*.jpg
 raw/assets/*.jpeg
 raw/assets/*.gif
 raw/assets/*.webp
+
+# Temporary ingest data files
+tools/ingest_data.json
