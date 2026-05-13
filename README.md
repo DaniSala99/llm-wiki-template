@@ -239,4 +239,4 @@ See [CLAUDE.md](CLAUDE.md) for detailed agent instructions, [SETUP.md](SETUP.md)
 
 ## Credits
 
-Inspired by the LLM Wiki pattern — an idea for building personal knowledge bases using LLMs as maintainers rather than retrievers, rather than as simple retrievers.
+Based on the [LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) — an idea for building personal knowledge bases using LLMs as maintainers rather than retrievers.
