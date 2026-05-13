@@ -107,26 +107,35 @@ You can find your API key at [console.anthropic.com](https://console.anthropic.c
 
 ## Step 7: Start your first wiki ingestion
 
+Open Claude Code and run:
+
 ```bash
-./tools/wiki.sh My-Project
+python3 tools/sync_project.py pull My-Project
 ```
 
-The script will:
-1. ✅ Pull your project from Drive
-2. ✅ Ingest all files in `raw/`
-3. ✅ Build wiki pages with cross-references
-4. ✅ Push everything back to Drive
+This will:
+1. ✅ Pull your project from Drive to `/tmp/wiki-project/`
+2. ✅ Download all sources and existing wiki pages
+
+Then you can work interactively:
+
+```
+ingest raw/file.pdf          # Ingest a specific file
+ingest raw/                  # Batch-ingest all files
+[any question]               # Query the wiki
+lint                         # Check for contradictions
+status                       # View wiki overview
+```
+
+When done, push your changes back:
+
+```bash
+python3 tools/sync_project.py push My-Project
+```
 
 ---
 
 ## Troubleshooting
-
-### "Permission denied" when running wiki.sh
-
-Make the script executable:
-```bash
-chmod +x ./tools/wiki.sh
-```
 
 ### "Claude command not found"
 

@@ -70,33 +70,42 @@ Edit `projects.md` in this repo and add a row with:
 
 ### 5. Start the wiki workflow
 
+In Claude Code, run:
+
 ```bash
-./tools/wiki.sh My-Project
+python3 tools/sync_project.py pull My-Project
 ```
 
 Claude will:
 1. Pull your project from Drive to `/tmp/wiki-project/`
 2. Read PROJECT.md and understand your domain
-3. Ingest all pending files from `raw/`
-4. Build/update wiki pages with cross-references
-5. Push everything back to Drive
-6. Show you a summary
+3. Download all sources and existing wiki pages
+4. You can now query, ingest, or update the wiki interactively
 
-That's it! Your wiki is now on Drive.
+After your work:
+
+```bash
+python3 tools/sync_project.py push My-Project
+```
+
+That's it! Your changes are now on Drive.
 
 ---
 
 ## Main workflow
 
 ```bash
-# Automatic batch ingestion (recommended)
-./tools/wiki.sh My-Project
+# Pull your project from Drive
+python3 tools/sync_project.py pull My-Project
 
-# This does everything:
-# 1. Pulls project from Drive
-# 2. Ingests all files in raw/ that aren't in log.md yet
-# 3. Creates/updates wiki pages
-# 4. Pushes wiki back to Drive
+# Work interactively in Claude Code:
+# - Ingest sources: ingest raw/file.pdf
+# - Query the wiki: [any question]
+# - Check health: lint
+# - View status: status
+
+# Push your changes back to Drive
+python3 tools/sync_project.py push My-Project
 ```
 
 ## Interactive commands (inside Claude Code)
@@ -220,9 +229,9 @@ Claude's job: everything else.
 - Google Drive authentication (MCP-based OAuth2)
 - File ingestion and wiki page generation
 - Cross-reference and contradiction detection
-- Multi-folder wiki structure (sources, entities, concepts, synthesis)
+- Multi-folder wiki structure (procedures, checklists, legal framework, regional docs, national system)
 - Automatic push/pull synchronization with Drive
-- Example project: CFMR Lombardia (42 wiki pages, 21 ingested documents)
+- Example project: CFMR Lombardia (22 markdown files from 550 pages of PDF/DOCX documentation)
 
 See [CLAUDE.md](CLAUDE.md) for detailed agent instructions, [SETUP.md](SETUP.md) for step-by-step configuration.
 
