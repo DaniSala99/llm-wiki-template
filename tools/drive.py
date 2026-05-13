@@ -14,7 +14,7 @@ from typing import Optional
 from google.oauth2.service_account import Credentials as ServiceAccountCredentials
 from google.oauth2.credentials import Credentials as UserCredentials
 from google.auth.transport.requests import Request
-from google.auth.oauthlib.flow import InstalledAppFlow
+from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload, MediaFileUpload
 import io
